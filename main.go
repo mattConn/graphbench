@@ -1,10 +1,14 @@
 package main
 
-import "graph-serve/interactive"
+import (
+	"graph-serve/interactive"
+)
 
 func main() {
 	s := interactive.NewSession()
 	for s.Active {
-		s.GetInput()
+		s.WriteOutput(s.Cursor)
+		s.ReadInput()
+		s.ExecCommand(s.Input)
 	}
 }

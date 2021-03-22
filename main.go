@@ -6,9 +6,5 @@ import (
 
 func main() {
 	s := interactive.NewSession()
-	for s.Active {
-		s.WriteOutput(s.Cursor)
-		s.ReadInput()
-		s.ExecCommand(s.Input)
-	}
+	s.Run()
 }

@@ -48,8 +48,12 @@ func (s *Session) ExecCommand(command string) {
 	cmd(s)
 }
 
-func (s Session) HandleInput() {
-	s.ReadInput()
+func (s Session) Run() {
+	for s.Active {
+		s.WriteOutput(s.Cursor)
+		s.ReadInput()
+		s.ExecCommand(s.Input)
+	}
 }
 
 var Commands = JumpTable{

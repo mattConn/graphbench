@@ -1,7 +1,7 @@
 package main
 
 import (
-	"graph-serve/interactive"
+	"graphbench/interactive"
 )
 
 func main() {

@@ -1,3 +1,3 @@
-module graph-serve
+module graphbench
 
 go 1.16

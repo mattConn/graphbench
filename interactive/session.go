@@ -49,6 +49,9 @@ func (s Session) WriteLine(output string) {
 }
 
 func (s *Session) ExecCommand(commandString string) {
+	if len(commandString) == 0 {
+		return
+	}
 	commands := strings.Fields(commandString)
 	cmd, ok := Commands[commands[0]]
 	if !ok {

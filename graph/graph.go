@@ -34,6 +34,23 @@ func (g *Graph) InsertNodes(n ...int64) (success string) {
 	return success
 }
 
+func (g *Graph) RemoveNodes(n ...int64) (success string) {
+	var new bool
+
+	success = "Removed:"
+
+	for _, i := range n {
+		_, new = g.NodeWithID(i)
+		str := " " + strconv.Itoa(int(i))
+		if !new {
+			g.RemoveNode(i)
+			success += str
+		}
+	}
+
+	return success
+}
+
 func (g *Graph) NodeList() []graph.Node {
 	return graph.NodesOf(g.Nodes())
 }

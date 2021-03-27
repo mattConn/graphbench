@@ -14,19 +14,9 @@ func NewCache() Cache {
 }
 
 func (s *Session) GetNodeStr() string {
-	c := &s.Cache
-	if c.Written {
-		c.Written = false
-		c.NodeStr = s.Graph.NodeListStr()
-	}
-	return c.NodeStr
+	return s.Graph.NodeListStr()
 }
 
 func (s *Session) GetEdgeStr() string {
-	c := &s.Cache
-	if c.Written {
-		c.Written = false
-		c.EdgeStr = s.Graph.EdgeListStr()
-	}
-	return c.EdgeStr
+	return s.Graph.EdgeListStr()
 }

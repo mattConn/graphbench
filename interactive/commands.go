@@ -22,7 +22,6 @@ func InsertNodes(s *Session) {
 		return
 	}
 
-	s.Cache.Written = true
 	IDs := make([]int64, len(s.Operands))
 	for i, op := range s.Operands {
 		n, err := strconv.Atoi(op)
@@ -39,7 +38,6 @@ func RemoveNodes(s *Session) {
 		return
 	}
 
-	s.Cache.Written = true
 	IDs := make([]int64, len(s.Operands))
 	for i, op := range s.Operands {
 		n, err := strconv.Atoi(op)
@@ -56,8 +54,6 @@ func InsertEdges(s *Session) {
 		s.WriteLine(s.GetEdgeStr())
 		return
 	}
-
-	s.Cache.Written = true
 
 	idLen := len(s.Operands)
 	if idLen%2 != 0 {

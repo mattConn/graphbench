@@ -1,8 +1,9 @@
 package interactive
 
 type Cache struct {
-	NodeStr string
-	Written bool
+	NodeStr, EdgeStr     string
+	NodeCount, EdgeCount int
+	Written              bool
 }
 
 func (s *Session) GetNodeStr() string {
@@ -11,5 +12,14 @@ func (s *Session) GetNodeStr() string {
 		c.Written = false
 		c.NodeStr = s.Graph.NodeListStr()
 	}
-	return "Nodes: " + c.NodeStr
+	return c.NodeStr
+}
+
+func (s *Session) GetEdgeStr() string {
+	c := &s.Cache
+	if c.Written {
+		c.Written = false
+		c.EdgeStr = s.Graph.EdgeListStr()
+	}
+	return c.EdgeStr
 }

@@ -90,7 +90,7 @@ func (g *Graph) EdgeList() []graph.Edge {
 func (g *Graph) EdgeListStr() string {
 	edges := g.EdgeList()
 	if len(edges) == 0 {
-		return "No nodes"
+		return "No edges"
 	}
 	edgesStr := make([]string, len(edges))
 	for i, e := range edges {

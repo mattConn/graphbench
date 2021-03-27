@@ -6,6 +6,13 @@ type Cache struct {
 	Written              bool
 }
 
+func NewCache() Cache {
+	return Cache{
+		NodeStr: "No nodes",
+		EdgeStr: "No edges",
+	}
+}
+
 func (s *Session) GetNodeStr() string {
 	c := &s.Cache
 	if c.Written {

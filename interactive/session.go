@@ -29,6 +29,7 @@ func NewSession() Session {
 		Active: true,
 		Cursor: "> ",
 		Graph:  graph.New(),
+		Cache:  NewCache(),
 	}
 
 	return s

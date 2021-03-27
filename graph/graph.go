@@ -58,6 +58,9 @@ func (g *Graph) NodeList() []graph.Node {
 
 func (g *Graph) NodeListStr() string {
 	nodes := g.NodeList()
+	if len(nodes) == 0 {
+		return "No nodes"
+	}
 	nodesStr := make([]string, len(nodes))
 	for i, n := range nodes {
 		nodesStr[i] = strconv.Itoa(int(n.ID()))
@@ -86,6 +89,9 @@ func (g *Graph) EdgeList() []graph.Edge {
 
 func (g *Graph) EdgeListStr() string {
 	edges := g.EdgeList()
+	if len(edges) == 0 {
+		return "No nodes"
+	}
 	edgesStr := make([]string, len(edges))
 	for i, e := range edges {
 		edgesStr[i] = fmt.Sprintf("(%d %d)", e.From().ID(), e.To().ID())

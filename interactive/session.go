@@ -3,6 +3,7 @@ package interactive
 import (
 	"bufio"
 	"fmt"
+	"graphbench/graph"
 	"os"
 	"strings"
 )
@@ -10,11 +11,14 @@ import (
 type JumpTable map[string]func(*Session)
 
 type Session struct {
-	Reader *bufio.Reader
-	Writer *bufio.Writer
-	Input  string
-	Active bool
-	Cursor string
+	Reader   *bufio.Reader
+	Writer   *bufio.Writer
+	Input    string
+	Operands []string
+	Active   bool
+	Cursor   string
+	Graph    graph.Graph
+	Cache    Cache
 }
 
 func NewSession() Session {
@@ -24,6 +28,8 @@ func NewSession() Session {
 		Input:  "",
 		Active: true,
 		Cursor: "> ",
+		Graph:  graph.New(),
+		Cache:  NewCache(),
 	}
 
 	return s
@@ -39,12 +45,21 @@ func (s Session) WriteOutput(output string) {
 	s.Writer.Flush()
 }
 
-func (s *Session) ExecCommand(command string) {
-	cmd, ok := Commands[command]
-	if !ok {
-		s.WriteOutput(fmt.Sprintf("Unrecognized command: %s\n", command))
+func (s Session) WriteLine(output string) {
+	s.WriteOutput(output + "\n")
+}
+
+func (s *Session) ExecCommand(commandString string) {
+	if len(commandString) == 0 {
 		return
 	}
+	commands := strings.Fields(commandString)
+	cmd, ok := Commands[commands[0]]
+	if !ok {
+		s.WriteOutput(fmt.Sprintf("Unrecognized command: %s\n", commands[0]))
+		return
+	}
+	s.Operands = commands[1:]
 	cmd(s)
 }
 
@@ -54,10 +69,4 @@ func (s Session) Run() {
 		s.ReadInput()
 		s.ExecCommand(s.Input)
 	}
-}
-
-var Commands = JumpTable{
-	"exit": func(s *Session) {
-		s.Active = false
-	},
 }

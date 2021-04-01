@@ -17,39 +17,35 @@ func New() Graph {
 	return Graph{simple.NewUndirectedGraph()}
 }
 
-func (g *Graph) InsertNodes(n ...int64) (success string) {
+func (g *Graph) InsertNodes(n ...int64) int {
 	var new bool
 	var node graph.Node
 
-	success = "Added"
+	count := 0
 
 	for _, i := range n {
 		node, new = g.NodeWithID(i)
-		str := fmt.Sprintf(" %s", strconv.Itoa(int(i)))
 		if new {
 			g.AddNode(node)
-			success += str
+			count++
 		}
 	}
 
-	return success
+	return count
 }
 
-func (g *Graph) RemoveNodes(n ...int64) (success string) {
+func (g *Graph) RemoveNodes(n ...int64) int {
+	count := 0
 	var new bool
-
-	success = "Removed"
 
 	for _, i := range n {
 		_, new = g.NodeWithID(i)
-		str := " " + strconv.Itoa(int(i))
 		if !new {
 			g.RemoveNode(i)
-			success += str
+			count++
 		}
 	}
-
-	return success
+	return count
 }
 
 func (g *Graph) NodeList() []graph.Node {
@@ -68,19 +64,21 @@ func (g *Graph) NodeListStr() string {
 	return strings.Join(nodesStr, " ")
 }
 
-func (g *Graph) InsertEdges(n ...int64) (success string) {
+func (g *Graph) InsertEdges(n ...int64) int {
 	var from, to graph.Node
 
-	success = "Added"
+	count := 0
 
 	for i := 0; i < len(n); i += 2 {
-		from, _ = g.NodeWithID(int64(n[i]))
-		to, _ = g.NodeWithID(int64(n[i+1]))
-		g.SetEdge(g.NewEdge(from, to))
-		success += fmt.Sprintf(" (%d %d)", n[i], n[i+1])
+		if g.EdgeBetween(int64(n[i]), int64(n[i+1])) == nil {
+			from, _ = g.NodeWithID(int64(n[i]))
+			to, _ = g.NodeWithID(int64(n[i+1]))
+			g.SetEdge(g.NewEdge(from, to))
+			count++
+		}
 	}
 
-	return success
+	return count
 }
 
 func (g *Graph) EdgeList() []graph.Edge {

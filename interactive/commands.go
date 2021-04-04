@@ -31,7 +31,9 @@ func InsertNodes(s *Session) {
 		}
 	}
 	inserted := s.Graph.InsertNodes(IDs...)
-	s.WriteLine(fmt.Sprintf("+%d", inserted))
+	if s.Verbose {
+		s.WriteLine(fmt.Sprintf("+%d", inserted))
+	}
 }
 
 func RemoveNodes(s *Session) {
@@ -46,7 +48,9 @@ func RemoveNodes(s *Session) {
 			s.Graph.RemoveNodes(n.ID())
 			removed++
 		}
-		s.WriteLine(fmt.Sprintf("-%d", removed))
+		if s.Verbose {
+			s.WriteLine(fmt.Sprintf("-%d", removed))
+		}
 		return
 	}
 
@@ -58,7 +62,9 @@ func RemoveNodes(s *Session) {
 		}
 	}
 	removed = s.Graph.RemoveNodes(IDs...)
-	s.WriteLine(fmt.Sprintf("-%d", removed))
+	if s.Verbose {
+		s.WriteLine(fmt.Sprintf("-%d", removed))
+	}
 }
 
 func InsertEdges(s *Session) {
@@ -66,7 +72,9 @@ func InsertEdges(s *Session) {
 		return
 	}
 	if len(s.Operands) == 0 {
-		s.WriteLine(s.GetEdgeStr())
+		if s.Verbose {
+			s.WriteLine(s.GetEdgeStr())
+		}
 		return
 	}
 
@@ -79,5 +87,7 @@ func InsertEdges(s *Session) {
 	}
 
 	inserted := s.Graph.InsertEdges(IDs...)
-	s.WriteLine(fmt.Sprintf("+%d", inserted))
+	if s.Verbose {
+		s.WriteLine(fmt.Sprintf("+%d", inserted))
+	}
 }

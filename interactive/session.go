@@ -19,6 +19,7 @@ type Session struct {
 	Cursor   string
 	Graph    graph.Graph
 	Cache    Cache
+	Verbose bool
 }
 
 func NewSession() Session {

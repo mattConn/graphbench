@@ -19,7 +19,7 @@ type Session struct {
 	Cursor   string
 	Graph    graph.Graph
 	Cache    Cache
-	Verbose bool
+	Verbose  bool
 }
 
 func NewSession() Session {
@@ -51,7 +51,7 @@ func (s Session) WriteLine(output string) {
 }
 
 func (s *Session) ExecCommand(commandString string) {
-	if len(commandString) == 0 {
+	if len(commandString) <= 1 {
 		return
 	}
 	commands := strings.Fields(commandString)

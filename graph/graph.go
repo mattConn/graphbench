@@ -46,17 +46,12 @@ func (g *Graph) InsertNodes(n ...int64) int {
 }
 
 func (g *Graph) RemoveNodes(n ...int64) int {
-	count := 0
-	var new bool
+	count := len(g.NodeList())
 
 	for _, i := range n {
-		_, new = g.NodeWithID(i)
-		if !new {
-			g.RemoveNode(i)
-			count++
-		}
+		g.RemoveNode(i)
 	}
-	return count
+	return count - len(g.NodeList())
 }
 
 func (g *Graph) NodeList() []graph.Node {

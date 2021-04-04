@@ -6,11 +6,22 @@ import (
 	"strings"
 
 	"gonum.org/v1/gonum/graph"
+	"gonum.org/v1/gonum/graph/graphs/gen"
 	"gonum.org/v1/gonum/graph/simple"
 )
 
 type Graph struct {
 	*simple.UndirectedGraph
+}
+
+type IDList []int64
+
+func (ids IDList) Len() int {
+	return len(ids)
+}
+
+func (ids IDList) ID(i int) int64 {
+	return ids[i]
 }
 
 func New() Graph {
@@ -112,18 +123,9 @@ func (g *Graph) EdgeListStr() string {
 }
 
 func (g *Graph) InsertCycle(n ...int64) int {
-	var from, to graph.Node
+	count := len(g.EdgeList())
 
-	count := 0
+	gen.Cycle(g, IDList(n))
 
-	for i := 0; i < len(n); i++ {
-		if g.EdgeBetween(int64(n[i]), int64(n[(i+1)%len(n)])) == nil {
-			from, _ = g.NodeWithID(int64(n[i]))
-			to, _ = g.NodeWithID(int64(n[(i+1)%len(n)]))
-			g.SetEdge(g.NewEdge(from, to))
-			count++
-		}
-	}
-
-	return count
+	return len(g.EdgeList()) - count
 }

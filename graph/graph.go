@@ -81,6 +81,20 @@ func (g *Graph) InsertEdges(n ...int64) int {
 	return count
 }
 
+func (g *Graph) RemoveEdges(n ...int64) int {
+
+	count := 0
+
+	for i := 0; i < len(n); i += 2 {
+		if g.EdgeBetween(int64(n[i]), int64(n[i+1])) != nil {
+			g.RemoveEdge(n[i], n[i+1])
+			count++
+		}
+	}
+
+	return count
+}
+
 func (g *Graph) EdgeList() []graph.Edge {
 	return graph.EdgesOf(g.Edges())
 }

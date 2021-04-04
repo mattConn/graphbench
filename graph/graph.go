@@ -110,3 +110,20 @@ func (g *Graph) EdgeListStr() string {
 	}
 	return strings.Join(edgesStr, " ")
 }
+
+func (g *Graph) InsertCycle(n ...int64) int {
+	var from, to graph.Node
+
+	count := 0
+
+	for i := 0; i < len(n); i++ {
+		if g.EdgeBetween(int64(n[i]), int64(n[(i+1)%len(n)])) == nil {
+			from, _ = g.NodeWithID(int64(n[i]))
+			to, _ = g.NodeWithID(int64(n[(i+1)%len(n)]))
+			g.SetEdge(g.NewEdge(from, to))
+			count++
+		}
+	}
+
+	return count
+}

@@ -15,6 +15,8 @@ var Commands = JumpTable{
 	// edge commands
 	"e": InsertEdges,
 	"E": RemoveEdges,
+	// cycle commands
+	"c": InsertCycle,
 }
 
 func InsertNodes(s *Session) {
@@ -68,11 +70,12 @@ func RemoveNodes(s *Session) {
 }
 
 func InsertEdges(s *Session) {
-	if len(s.Operands)%2 != 0 {
-		return
-	}
 	if len(s.Operands) == 0 {
 		s.WriteLine(s.GetEdgeStr())
+		return
+	}
+
+	if len(s.Operands)%2 != 0 {
 		return
 	}
 
@@ -106,5 +109,24 @@ func RemoveEdges(s *Session) {
 	removed := s.Graph.RemoveEdges(IDs...)
 	if s.Verbose {
 		s.WriteLine(fmt.Sprintf("-%d", removed))
+	}
+}
+
+func InsertCycle(s *Session) {
+	if len(s.Operands) < 3 {
+		return
+	}
+
+	IDs := make([]int64, len(s.Operands))
+	for i, op := range s.Operands {
+		n, err := strconv.Atoi(op)
+		if err == nil {
+			IDs[i] = int64(n)
+		}
+	}
+
+	inserted := s.Graph.InsertCycle(IDs...)
+	if s.Verbose {
+		s.WriteLine(fmt.Sprintf("+%d", inserted))
 	}
 }
